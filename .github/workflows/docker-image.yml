@@ -14,6 +14,8 @@ on:
     tags: [ 'latest' ]
   pull_request:
     branches: [ main ]
+  watch:
+    types: started
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -26,6 +28,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
     permissions:
       contents: read
       packages: write
@@ -65,6 +68,7 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
