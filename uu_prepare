@@ -25,5 +25,5 @@ config interface 'lan'
 
   SHGET=$(curl https://uu.163.com/router/direction.html | grep 'wget' | sed 's/<p>//;s/<\/p>//')
   $SHGET
-  /bin/sh /root/install.sh openwrt $(uname -m)
+  /bin/sh ./install.sh openwrt $(uname -m)
 }
