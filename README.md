@@ -1,6 +1,6 @@
 # uuplugin docker 版本
 
-UU 加速提供了 OpenWrt 版本的插件，见 https://router.uu.163.com/app/baike/public/5f963c9304c215e129ca40e8.html。
+UU 加速提供了 OpenWrt 版本的插件，见 https://uu.163.com/router/direction.html。
 该项目基于 OpenWrt 的 openwrtorg/rootfs 版本构完成了开启 UU 需要的配置，同时移除了一些无关服务，如 DHCP、SSH、Web luci。
 你可以使用该镜像完成旁路由模式下 UU 加速服务快速部署。
 
@@ -21,25 +21,20 @@ UU 加速提供了 OpenWrt 版本的插件，见 https://router.uu.163.com/app/b
 ip link set eth0 promisc on
 ```
 
-`eth0` 网卡根据实际情况选择，群晖系统命令应当如下：
+`eth0` 网卡根据实际情况选择，你可以通过 `ip addr` 判断该输入什么。
 
-```
-ip link set ovs_eth0 promisc on
-```
-
-你可以通过 `ip addr` 判断该输入什么。
-
-### 创建桥接网络 macvlan
+### 创建桥接网络 macvlan （可选）
 
 命令示例如下，`subnet`、`gateway` 和 `parent` 应当根据实际情况选择：
 
 ```
 docker network create -d macvlan \
---subnet=192.168.18.0/24 \
---gateway=192.168.18.1 \
--o parent=ovs_eth0 \
+--subnet=10.0.0.0/24 \
+--gateway=10.0.0.1 \
+-o parent=eth0 \
 bridge-host
 ```
+**推荐使用docker-compse直接添加网络。**
 
 ## 启动容器
 
@@ -49,7 +44,7 @@ bridge-host
 ENV UU_LAN_IPADDR=
 ENV UU_LAN_GATEWAY=
 ENV UU_LAN_NETMASK="255.255.255.0"
-ENV UU_LAN_DNS="119.29.29.29"
+ENV UU_LAN_DNS="10.0.0.1"
 ```
 
 启动命令示例如下：
@@ -65,6 +60,11 @@ dianqk/uuplugin
 
 - `UU_LAN_IPADDR` 为该容器使用的 IP，也是游戏主机的网关
 - `UU_LAN_GATEWAY` 为该容器的上级网关
+
+推荐使用docker-compse启动，请根据情况修改yml文件。
+```
+docker-compose up -d
+```
 
 ## 绑定 UU 服务
 
