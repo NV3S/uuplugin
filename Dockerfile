@@ -1,17 +1,17 @@
-FROM openwrtorg/rootfs:x86-64-19.07.6
+FROM openwrtorg/rootfs:x86-64
 
-LABEL maintainer="DianQK <dianqk@icloud.com>"
+LABEL maintainer="Blindlight <blindlight1986@gmail.com>"
 
 ENV UU_LAN_IPADDR=
 ENV UU_LAN_GATEWAY=
 ENV UU_LAN_NETMASK="255.255.255.0"
-ENV UU_LAN_DNS="119.29.29.29"
+ENV UU_LAN_DNS="223.5.5.5"
 
 USER root
 
 RUN mkdir /var/lock
 RUN opkg update
-RUN opkg install libustream-mbedtls ca-certificates kmod-tun
+RUN opkg install libustream-mbedtls ca-certificates kmod-tun curl
 
 ADD uu_prepare /etc/init.d/uu_prepare
 RUN /etc/init.d/uu_prepare enable
