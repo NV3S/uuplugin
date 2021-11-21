@@ -4,19 +4,22 @@ services:
     image: blindlight/uuplugin
     container_name: uuplugin
     environment:
-      - UU_LAN_IPADDR="10.0.0.244"
-      - UU_LAN_GATEWAY="10.0.0.1"
-      - UU_LAN_DNS="10.0.0.1"
+      - UU_LAN_IPADDR=10.0.0.244
+      - UU_LAN_GATEWAY=10.0.0.1
+      - UU_LAN_DNS=10.0.0.1
     privileged: true
+    networks:
+      bridge-host:
+          ipv4_address: 10.0.0.244
 
 networks:
-  dockervlan:
+  bridge-host:
     name: bridge-host
     driver: macvlan
     driver_opts:
       parent: eth0
     ipam:
       config:
-        - subnet: "10.0.0.0/24"
-          ip_range: "10.0.0.0/24"
-          gateway: "10.0.0.1"
+        - subnet: 10.0.0.0/24
+          ip_range: 10.0.0.0/24
+          gateway: 10.0.0.1
