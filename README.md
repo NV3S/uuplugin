@@ -2,10 +2,12 @@
 
 UU 加速提供了 OpenWrt 版本的插件，见 https://uu.163.com/router/direction.html。
 该项目基于 OpenWrt 的 openwrtorg/rootfs 版本构完成了开启 UU 需要的配置，同时移除了一些无关服务，如 DHCP、SSH、Web luci。
-你可以使用该镜像完成旁路由模式下 UU 加速服务快速部署。
+你可以使用该镜像完成旁路由模式下 UU 加速服务快速部署。（加入保持加速器最新版本功能）
 
 因为不同的 OpenWrt 版本对路由规则配置不同（或者别的什么），导致检测不到游戏主机连入。主要表现为主机在 UU app 中出现后立即消失。
-使用该 docker 镜像应当可以有效解决该问题。
+~~使用该 docker 镜像应当可以有效解决该问题。~~
+
+使用该docker镜像可以部分解决由路由引起的UU检测不到主机的问题，但仍有NS在app闪现的情况，猜测为uu插件本身对主机的判断还存在bug，请耐心等待更新。
 
 ## 环境准备
 
@@ -53,8 +55,8 @@ ENV UU_LAN_DNS="10.0.0.1"
 docker run -d --name uuplugin \
 --network bridge-host \
 --privileged \
--e UU_LAN_IPADDR=192.168.18.77 \
--e UU_LAN_GATEWAY=192.168.18.1 \
+-e UU_LAN_IPADDR=10.0.0.125 \
+-e UU_LAN_GATEWAY=10.0.0.1 \
 dianqk/uuplugin
 ```
 
@@ -70,7 +72,7 @@ docker-compose up -d
 
 UU 主机加速 app 会检测手机网关进行通信判断是否安装的 UU 插件，所以你需要**将手机网关和 DNS 指向刚刚创建的容器使用的 IP**。
 打开 app 点击安装路由器插件绑定即可。
-此后为了避免影响手机上网，绑定完毕后，手机的网关和 DNS 可以改回原来的设定。
+绑定完毕后，手机即可以改回原来的设定。
 
 ## 为游戏主机加速
 
