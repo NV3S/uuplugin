@@ -55,13 +55,15 @@ ENV UU_LAN_DNS="10.0.0.1"
 docker run -d --name uuplugin \
 --network bridge-host \
 --privileged \
+--ip 10.0.0.125 \
 -e UU_LAN_IPADDR=10.0.0.125 \
 -e UU_LAN_GATEWAY=10.0.0.1 \
-dianqk/uuplugin
+blindlight/uuplugin
 ```
 
 - `UU_LAN_IPADDR` 为该容器使用的 IP，也是游戏主机的网关
 - `UU_LAN_GATEWAY` 为该容器的上级网关
+- `--ip` 同样设置为容器ip，否则容器创建时自动分配为macvlan的起始ip。
 
 推荐使用docker-compse启动，请根据情况修改yml文件。
 ```
