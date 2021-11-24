@@ -25,7 +25,7 @@ ip link set eth0 promisc on
 
 `eth0` 网卡根据实际情况选择，你可以通过 `ip addr` 判断该输入什么。
 
-### 创建桥接网络 macvlan （可选）
+### 创建桥接网络 macvlan
 
 命令示例如下，`subnet`、`gateway` 和 `parent` 应当根据实际情况选择：
 
