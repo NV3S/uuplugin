@@ -38,6 +38,12 @@ bridge-host
 ```
 **推荐使用docker-compse直接添加网络。**
 
+## 创建volumes
+为了避免每次更新更新容器需要再次绑定，可以创建volume目录以保持配置
+```
+docker volume create uu_data
+```
+
 ## 启动容器
 
 容器可配置参数如下，一般情况只需要配置 `UU_LAN_IPADDR` 和 `UU_LAN_GATEWAY`。
@@ -58,12 +64,14 @@ docker run -d --name uuplugin \
 --ip 10.0.0.125 \
 -e UU_LAN_IPADDR=10.0.0.125 \
 -e UU_LAN_GATEWAY=10.0.0.1 \
+-v uu_data:/tmp/uu \
 blindlight/uuplugin
 ```
 
 - `UU_LAN_IPADDR` 为该容器使用的 IP，也是游戏主机的网关
 - `UU_LAN_GATEWAY` 为该容器的上级网关
 - `--ip` 同样设置为容器ip，否则容器创建时自动分配为macvlan的起始ip。
+- `-v` volume目录，如发现无法启动可删除再次创建，uu插件仍处在开发阶段配置文件结构随时可能改变。
 
 推荐使用docker-compse启动，请根据情况修改yml文件。
 ```
