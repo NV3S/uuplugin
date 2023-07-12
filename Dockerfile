@@ -1,4 +1,4 @@
-FROM openwrtorg/rootfs:x86_64
+FROM openwrt/rootfs:x86-64-19.07.10
 
 LABEL maintainer="Blindlight <blindlight1986@gmail.com>"
 
